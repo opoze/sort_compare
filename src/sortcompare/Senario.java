@@ -12,28 +12,44 @@ public class Senario {
     private ArrayList<Long> dataList;
     private String method;
     
-    private void ascPow(int n){
+    private void asc(int n){
         dataList = new ArrayList();
         for (int i = 0; i < n; i++) {
-            dataList.add((long)Math.pow(2, i));
+            dataList.add((long)(i * Math.log(i)));
         }
     }
     
-    private void descPow(int n){ 
+    private void desc(int n){ 
         dataList = new ArrayList();
         for (int i = n - 1; i > -1; i--) {
-            dataList.add((long)Math.pow(2, i));
+            dataList.add((long)(2 * i));
+        }
+    }
+    
+    private void random(int n){
+        dataList = new ArrayList();
+        for (int i = 0; i < n; i++) {
+            dataList.add((long)(2 * i + 1));
+        }
+    }
+    
+    private void cascade(int n){ 
+        dataList = new ArrayList();
+        for (int i = 0; i < n; i++) {
+            dataList.add((long)(2 * i));
         }
     }
     
     private void generate() {
         switch(method){
-            case "ascPow": ascPow(n); break;
-            case "descPow": descPow(n); break;
+            case "asc": asc(n); break;
+            case "desc": desc(n); break;
+            case "random": random(n); break;
+            case "cascade": cascade(n); break;
         }
     }
     
-    private Senario(Builder builder){
+    private Senario(SenarioBuilder builder){
         n = builder.n;
         method = builder.method;
         this.generate();
@@ -50,18 +66,18 @@ public class Senario {
         }
     }
     
-    public static class Builder{
+    public static class SenarioBuilder{
         private int n;
         private String method;
         
-        public Builder(){}
+        public SenarioBuilder(){}
         
-        public Builder withN(int n){
+        public SenarioBuilder withN(int n){
             this.n = n;
             return this;
         }
         
-        public Builder withMethod(String method){
+        public SenarioBuilder withMethod(String method){
             this.method = method;
             return this;
         }

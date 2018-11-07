@@ -1,18 +1,26 @@
 package sortcompare;
 
+import sortcompare.sorters.AbstractSorter;
+
 /**
  *
  * @author luispozenato
  */
 public class Main {
 
-    public static void main(String[] args) {        
-        Senario senario = new Senario.Builder()
-            .withN(10)
-            .withMethod("descPow")
+    public static void main(String[] args) { 
+        
+        // Senario Builder
+        Senario senario = new Senario.SenarioBuilder()
+            .withN(1000)
+            .withMethod("asc")
             .build();
         
-        senario.dump();
+        // Sorter Factory
+        AbstractSorterFactory sorterFactory = new SorterFactory();
+        AbstractSorter sorter = sorterFactory.create(TypeEnum.BUBLE);
+        sorter.sort(senario);
+        
     }
     
 }
