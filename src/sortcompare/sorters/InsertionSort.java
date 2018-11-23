@@ -1,6 +1,6 @@
 package sortcompare.sorters;
 
-import sortcompare.Senario;
+import sortcompare.Cenario;
 
 /**
  *
@@ -8,7 +8,7 @@ import sortcompare.Senario;
  */
 public class InsertionSort extends AbstractSorter{
     
-    public void sort(Senario senario){
-        System.out.println("Sorting with insertion.");
+    public int[] sort(int[] array){
+        return array;
     }
 }

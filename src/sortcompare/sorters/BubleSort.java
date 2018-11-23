@@ -1,6 +1,7 @@
 package sortcompare.sorters;
 
-import sortcompare.Senario;
+import java.util.Iterator;
+import sortcompare.Cenario;
 
 /**
  *
@@ -8,7 +9,13 @@ import sortcompare.Senario;
  */
 public class BubleSort extends AbstractSorter{
     
-    public void sort(Senario senario){
-        System.out.println("Sorting with buble.");
+    public int[] sort(int[] array){      
+        for (int i = 1; i < array.length; i++) {
+           for (int j = i; j > 0 && array[j - 1] > array[j]; j--) {
+               array = exchange(array, j, j-1);
+           }
+        }
+        return array;
     }
+    
 }
