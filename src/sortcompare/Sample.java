@@ -9,7 +9,7 @@ import sortcompare.sorters.AbstractSorter;
 public class Sample {
     
     long[] samples;
-    double average;
+    long average;
     double dev;
     int sampleSize;
     int[] data;
@@ -20,19 +20,28 @@ public class Sample {
         this.data = data;
         this.sorter = sorter;
     }
-    
+
+    // Retorna médiac considerando desvio padrao
     public double run(){
         samples = sample(sorter, data, sampleSize);
-        average = average(samples);
-        dev = dev(samples, average);
-        average = averageWithDev(samples, average, dev);
+        average = average(samples); // media de tempo em nanosegundos
+        dev = dev(samples, average); // desvio padrao double;
+        average = averageWithDev(samples, average, dev); // media considerando desvio padrao
         return nano2seconds(average);
     }
     
-    private long[] sample(AbstractSorter sorter, int[] array, int times){
+    // Gera amostra n vezes, amostra significa rodar o algoritmo sorter e salvar o tempo de execução
+    private long[] sample(AbstractSorter sorter, int[] data, int times){
         long samples[] = new long[times];
         long start;
+        
+        // este array é usado como auxilir e recebe um clone do array de inteiros
+        // faço isso porque sorter.sort() sempre altera o array original.
+        // nao sei porque, em java parace que os parametros sao passados como referencia automaticamente
+        
+        int[] array;
         for (int i = 0; i < times; i++) {
+            array = data.clone();
             start = System.nanoTime();
             sorter.sort(array);
             samples[i] = System.nanoTime() - start;
@@ -40,20 +49,22 @@ public class Sample {
         return samples;
     }
 
-    
-    private static double nano2seconds(double nanoTime){
-        return nanoTime / 1_000_000_000.0;
+    // Converte de nanosegundos para segundos
+    private static double nano2seconds(long nanoTime){
+        return (double)(nanoTime / 1_000_000_000.0);
     }
     
-    private double average(long[] samples){
+    // Média padrão
+    private long average(long[] samples){
         long sum = 0;
         for (int i = 0; i < samples.length; i++) {
             sum += samples[i];
         }
-        return sum / samples.length;
+        return (long)(sum / samples.length);
     }
     
-    private double averageWithDev(long[] samples, double average, double dev){
+    // Média considerando desvio padrão
+    private long averageWithDev(long[] samples, long average, double dev){
         long sum = 0;
         double startRange = dev - average;
         double endRange = dev + average;
@@ -62,9 +73,10 @@ public class Sample {
                 sum += samples[i];    
             }
         }
-        return sum / samples.length;
+        return (long)(sum / samples.length);
     }
     
+    // Desvio padrão
     private double dev(long[] samples, double average){
         double sum = 0;
         for (int i = 0; i < samples.length; i++) {

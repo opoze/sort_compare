@@ -10,10 +10,9 @@ public abstract class AbstractSorter {
     // sort with data in ArrayList interator
     public abstract int[] sort(int[] array);
     
-    protected int[] exchange(int[] array, int i, int j){
+    protected void exchange(int[] array, int i, int j){
         int aux = array[i];
         array[i] = array[j];
         array[j] = aux;
-        return array;
     }
 }
